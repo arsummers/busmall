@@ -47,3 +47,8 @@ App:
     
 REMEMBER: treat this as a bunch of little problems
     
+STEP 1:
+Constructor function to get images on page
+Step 2:
+
+
