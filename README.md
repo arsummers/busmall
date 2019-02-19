@@ -7,7 +7,6 @@ Think of this as marketing research to save Bus Mall resources
 The app needs to display products to focus groups three at a time
     1. must be side by side
         i. should be selected randomly
-        ii.
     2. should be uniform height
         a. will have to edit some of the images, can do via css
     3. group members will choose one product of three displayed
@@ -33,6 +32,7 @@ App:
                 *. can I divvy them up equally between left, center, right?
             ii.must not duplicate images shown on most recent click
                 *.make a constructor function that creates an object for each image
+                -----done. They all cycle and render
                     1.name of image
                     2.filepath
                     3.number of times shown
@@ -48,7 +48,10 @@ App:
 REMEMBER: treat this as a bunch of little problems
     
 STEP 1:
-Constructor function to get images on page
+Constructor function to get images on page - done
 Step 2:
+Added a set of three filler images at the top, so that the ones showing as default don't count to votes.
+    1. Voting clicks will be clicks -1, don't make a variable though, that breaks it. Write it into table.
+Step 3.
 
 
