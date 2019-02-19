@@ -1,13 +1,18 @@
 'use-strict';
-//constructor function for images
-var total_clicks = 26;
+
+//click number countdown
+var total_clicks = 5;
+//objects from constructor instances get moved into here
 var all_mall_items = [];
 
+//creates variables for each picture display, unassigned here because their input changes with the randomizer
 var currently_displayed_right_product;
 var currently_displayed_center_product;
 var currently_displayed_left_product;
 
+//creates elements for each image and its caption to live in
 var product_container = document.getElementById('product_container');
+var result_container = document.getElementById('bus_results');
 
 var left_img = document.getElementById('left_img');
 var center_img = document.getElementById('center_img');
@@ -17,35 +22,41 @@ var left_h2 = document.getElementById('left_h2');
 var center_h2 = document.getElementById('center_h2');
 var right_h2 = document.getElementById('right_h2');
 
-
-var Mall_item = function(item_name, filepath) {
+//start of constructor function
+var Mall_item = function (item_name, filepath) {
   this.item_name = item_name;
   this.filepath = filepath;
   this.num_times_shown = 0;
   this.num_times_clicked = 0;
+
+  //pushes instances into the global array
   all_mall_items.push(this);
 };
 
+//
 var render_products = function(product, target_img, target_h2){
+  console.log(product);
+  product.num_times_shown++;
+
   target_img.src = product.filepath;
   target_h2.textContent = product.item_name;
 };
 
 var handle_click_on_item = function(event) {
-  console.log('click');
-  if(event.target.tagName === 'IMG'){
+    console.log('click');
+  if(event.target.textContent === 'Hi click me'){
+  }
+
+  if(event.target.id === 'center_img' || event.target.id === 'left_img' || event.target.id === 'right_img'){
     if(event.target.id === 'left_img'){
       currently_displayed_left_product.num_times_clicked ++;
     } else if(event.target.id === 'center_img')
     {currently_displayed_center_product.num_times_clicked ++;
     } else if (event.target.id === 'right_img'){
       currently_displayed_right_product.num_times_clicked ++;
-    }//need to tell it to not register clicks in other part of section
+    }
 
     total_clicks --;
-
-    //currently pulls from all_mall_items array to display randomly.
-    //can I splice this array?
 
     var left_img_idx = Math.floor(Math.random() * all_mall_items.length);
     var center_img_idx = Math.floor(Math.random() * all_mall_items.length);
@@ -71,6 +82,17 @@ var handle_click_on_item = function(event) {
     //gives stop conditions - doesn't stop clicks if user clicks in section but not on an image
     if (total_clicks <= 0){
       product_container.removeEventListener('click', handle_click_on_item);
+
+      for(var i = 0; i < all_mall_items.length; i++){
+        var li_el = document.createElement('li');
+
+
+        li_el.textContent = `${all_mall_items[i].item_name}  ${all_mall_items[i].num_times_clicked}/${all_mall_items[i].num_times_shown}`;
+
+        result_container.appendChild(li_el);
+
+      }
+      // remove_imgs_and_render_results();
     }
 
     //this tries to log position of clicks to console, but really just seems random
@@ -96,26 +118,39 @@ var handle_click_on_item = function(event) {
 
 //image object instantiating area
 //how do I make property that adds an ID?
+
+
+
 new Mall_item('R2D2 Bag', './img/bag.jpg');
 new Mall_item('Banana Cutter', './img/banana.jpg');
 new Mall_item('Bathroom iPad', './img/bathroom.jpg');
 new Mall_item('Cthulhu', './img/cthulhu.jpg');
 new Mall_item('Duck Bill', './img/dog-duck.jpg');
 new Mall_item('Dragon Meat', './img/dragon.jpg');
-new Mall_item('Pen', './img/pen.jpg');
-new Mall_item('Pet Sweeper', './img/pet-sweep.jpg');
-new Mall_item('Scissors', './img/scissors.jpg');
-new Mall_item('Shark', './img/shark.jpg');
-new Mall_item('Baby Sweeper', './img/sweep.png');
-new Mall_item('Tauntaun', './img/tauntaun.jpg');
-new Mall_item('Unicorn', './img/unicorn.jpg');
-new Mall_item('USB Tentacle', './img/usb.gif');
-new Mall_item('Watering Can', './img/water-can.jpg');
-new Mall_item('Wine Glass', './img/wine-glass.jpg');
+// new Mall_item('Pen', './img/pen.jpg');
+// new Mall_item('Pet Sweeper', './img/pet-sweep.jpg');
+// new Mall_item('Scissors', './img/scissors.jpg');
+// new Mall_item('Shark', './img/shark.jpg');
+// new Mall_item('Baby Sweeper', './img/sweep.png');
+// new Mall_item('Tauntaun', './img/tauntaun.jpg');
+// new Mall_item('Unicorn', './img/unicorn.jpg');
+// new Mall_item('USB Tentacle', './img/usb.gif');
+// new Mall_item('Watering Can', './img/water-can.jpg');
+// new Mall_item('Wine Glass', './img/wine-glass.jpg');
 
-currently_displayed_right_product = all_mall_items[0];
-currently_displayed_center_product = all_mall_items[1];
-currently_displayed_left_product = all_mall_items[2];
+
+var left_img_idx = Math.floor(Math.random() * all_mall_items.length);
+    var center_img_idx = Math.floor(Math.random() * all_mall_items.length);
+    var right_img_idx = Math.floor(Math.random() * all_mall_items.length);
+
+currently_displayed_right_product = all_mall_items[right_img_idx];
+    currently_displayed_center_product = all_mall_items[center_img_idx];
+    currently_displayed_left_product = all_mall_items[left_img_idx];
+
+render_products(all_mall_items[left_img_idx], left_img, left_h2);
+    render_products(all_mall_items[center_img_idx], center_img, center_h2);
+    render_products(all_mall_items[right_img_idx], right_img, right_h2);
+
 
 product_container.addEventListener('click', handle_click_on_item);
 
@@ -127,7 +162,6 @@ all_mall_items[1].addEventListener('click', handle_click_on_item);
 console.log('center: ');
 all_mall_items[2].addEventListener('click', handle_click_on_item);
 console.log('right: ');*/
-
 
 
 

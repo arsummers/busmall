@@ -64,3 +64,9 @@ Handle image display
     2.All images must be different than the one previously shown
 
 
+if some other element is on the mouse, the code won't go
+You can filter by anything descriptive of what you're clicking on, like property, attribute
+Look up: element node on mdn
+ONce we move to jquery, will be able to set up event handlers on lots of stuff
+
+
