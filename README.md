@@ -2,6 +2,7 @@
 Sources:
 Splicing function: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
 Heading font: https://fonts.google.com/specimen/Chau+Philomene+One?selection.family=Chau+Philomene+One
+TA Ed Abrahamsen helped extensively with debugging.
 --------------------------------------------------------------------
 This is where basic scaffolding is going to take place
 What I need:
