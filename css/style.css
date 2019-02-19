@@ -1,7 +1,23 @@
+body{
+    background-image: linear-gradient(to right, rgb(203, 203, 252), rgb(55, 41, 77));
+}
+h1{
+    font-family: 'Chau Philomene One', sans-serif;
+    font-size: 300%; 
+    margin-left: 30%;
+}
 div{
     display: inline-block;
 }
 img{
-    max-height: 200px;
-    max-width: 200px;
+    height: 200px;
+    width: 200px;
+    border: 3px solid #01bc94;
+    margin-left: 50%;
+}
+h2{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background: #c2d8fc;
+    border: 3px solid #01bc94;
+    margin-left: 50%;
 }

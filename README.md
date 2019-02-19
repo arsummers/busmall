@@ -1,11 +1,15 @@
 # busmall
+Sources:
+Splicing function: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+Heading font: https://fonts.google.com/specimen/Chau+Philomene+One?selection.family=Chau+Philomene+One
+--------------------------------------------------------------------
 This is where basic scaffolding is going to take place
 What I need:
 Give them a fun digital catalogue to navigate
 Bus Mall wants to find out which items are most likely to sell, so they can feature only those
 Think of this as marketing research to save Bus Mall resources
 The app needs to display products to focus groups three at a time
-    1. must be side by side
+    1. must be side by side ---> done
         i. should be selected randomly
     2. should be uniform height
         a. will have to edit some of the images, can do via css
@@ -24,6 +28,7 @@ Styling:
             i. looks like it's time to build a wireframe
 App:
     1. display 3 random images from directory like so: [][][]
+        ---done, consistent.
     2. when clicked:
         a. register clicks
         b. track clicks done on each image
@@ -53,5 +58,9 @@ Step 2:
 Added a set of three filler images at the top, so that the ones showing as default don't count to votes.
     1. Voting clicks will be clicks -1, don't make a variable though, that breaks it. Write it into table.
 Step 3.
+Handle image display
+    1.Can't show duplicate image on click 
+        --> Tried to use Fisher-Yates shuffle, and a splice method. Both broke the code.
+    2.All images must be different than the one previously shown
 
 

@@ -1,6 +1,6 @@
 'use-strict';
 //constructor function for images
-var total_clicks = 11;
+var total_clicks = 26;
 var all_mall_items = [];
 
 var currently_displayed_right_product;
@@ -21,7 +21,7 @@ var right_h2 = document.getElementById('right_h2');
 var Mall_item = function(item_name, filepath) {
   this.item_name = item_name;
   this.filepath = filepath;
-  this.num_times_shown = 0;//I want to make these arrays instead, not sure if that's the right path
+  this.num_times_shown = 0;
   this.num_times_clicked = 0;
   all_mall_items.push(this);
 };
@@ -40,28 +40,62 @@ var handle_click_on_item = function(event) {
     {currently_displayed_center_product.num_times_clicked ++;
     } else if (event.target.id === 'right_img'){
       currently_displayed_right_product.num_times_clicked ++;
-    }
+    }//need to tell it to not register clicks in other part of section
+
     total_clicks --;
+
+    //currently pulls from all_mall_items array to display randomly.
+    //can I splice this array?
+
     var left_img_idx = Math.floor(Math.random() * all_mall_items.length);
     var center_img_idx = Math.floor(Math.random() * all_mall_items.length);
     var right_img_idx = Math.floor(Math.random() * all_mall_items.length);
 
+    /*trying to splice the array being fed into all_mall_items, to start preventing duplicates
+   I'm keeping this here but commented out. Whenever I try to splice the array, it breaks the program because
+    suddenly "product" can't be defined anywhere in the document.
+    var remove_right = all_mall_items.splice(right_img_idx, 1);
+    var remove_center = all_mall_items.splice(center_img_idx, 1);
+    var remove_left = all_mall_items.splice(left_img_idx, 1);*/
+
+    //tells the randomizer which of my three potential spaces to put images in
     currently_displayed_right_product = all_mall_items[right_img_idx];
     currently_displayed_center_product = all_mall_items[center_img_idx];
     currently_displayed_left_product = all_mall_items[left_img_idx];
 
+    //displays images from array at the three different spaces
     render_products(all_mall_items[left_img_idx], left_img, left_h2);
     render_products(all_mall_items[center_img_idx], center_img, center_h2);
     render_products(all_mall_items[right_img_idx], right_img, right_h2);
 
+    //gives stop conditions - doesn't stop clicks if user clicks in section but not on an image
     if (total_clicks <= 0){
       product_container.removeEventListener('click', handle_click_on_item);
     }
+
+    //this tries to log position of clicks to console, but really just seems random
+    // console.log(all_mall_items[left_img_idx].num_times_clicked);
+    // console.log(all_mall_items[center_img_idx].num_times_clicked);
+    // console.log(all_mall_items[right_img_idx].num_times_clicked);
+
+    //I'm trying to get the console log to print to the page
+    var click_count_section = document.createElement('article');
+    var left_clicks = document.createElement('p');
+    left_clicks.textContent = all_mall_items[left_img_idx].num_times_clicked;
+    click_count_section.appendChild(left_clicks);
+
+    var center_clicks = document.createElement('p');
+    center_clicks.textContent = all_mall_items[center_img_idx].num_times_clicked;
+    click_count_section.appendChild(center_clicks);
+
+    var right_clicks = document.createElement('p');
+    right_clicks.textContent = all_mall_items[right_img_idx].num_times_clicked;
+    click_count_section.appendChild(right_clicks);
   }
 };
 
-
 //image object instantiating area
+//how do I make property that adds an ID?
 new Mall_item('R2D2 Bag', './img/bag.jpg');
 new Mall_item('Banana Cutter', './img/banana.jpg');
 new Mall_item('Bathroom iPad', './img/bathroom.jpg');
@@ -84,6 +118,15 @@ currently_displayed_center_product = all_mall_items[1];
 currently_displayed_left_product = all_mall_items[2];
 
 product_container.addEventListener('click', handle_click_on_item);
+
+/*Tried to add an event listener for clicks on some indices of the array. This hasn't worked, since it thinks that
+all_mall_items.addEventListener isn't a function. Not sure how to fix this.
+all_mall_items[0].addEventListener('click', handle_click_on_item);
+console.log('left: ');
+all_mall_items[1].addEventListener('click', handle_click_on_item);
+console.log('center: ');
+all_mall_items[2].addEventListener('click', handle_click_on_item);
+console.log('right: ');*/
 
 
 
