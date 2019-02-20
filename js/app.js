@@ -53,9 +53,9 @@ var render_products = function(product, target_img, target_h2){
 
 //Start of main function that runs the entire program
 var handle_click_on_item = function(event) {
-  console.log('temp mall items after handler', temp_mall_items);
-  console.log('all mall items after handler', all_mall_items);
-  console.log('click');
+  // console.log('temp mall items after handler', temp_mall_items);
+  // console.log('all mall items after handler', all_mall_items);
+  // console.log('click');
 
   //registers that the click happened on an image
   if(event.target.id === 'center_img' || event.target.id === 'left_img' || event.target.id === 'right_img'){
@@ -85,25 +85,26 @@ var handle_click_on_item = function(event) {
     //starts splice to control randomization
     //debugger;
     var left_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-    console.log('temp mall items after random', temp_mall_items);
-    console.log('all mall items after random', all_mall_items);
+    //console.log('temp mall items after random', temp_mall_items);
+    //console.log('all mall items after random', all_mall_items);
     
-    temp_mall_items.splice(left_img_idx, 1);
     render_products(temp_mall_items[left_img_idx], left_img, left_h2);
     currently_displayed_left_product = temp_mall_items[left_img_idx];
     //console.log('displayed left: ', currently_displayed_left_product);
+    temp_mall_items.splice(left_img_idx, 1);
 
     var center_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-    temp_mall_items.splice(center_img_idx, 1);
+
     render_products(temp_mall_items[center_img_idx], center_img, center_h2);
     currently_displayed_center_product = temp_mall_items[center_img_idx];
+    temp_mall_items.splice(center_img_idx, 1);
     //console.log('center left: ', currently_displayed_center_product);
 
 
     var right_img_idx = Math.floor(Math.random() * temp_mall_items.length);
     render_products(temp_mall_items[right_img_idx], right_img, right_h2);
-    temp_mall_items.splice(right_img_idx, 1);
     currently_displayed_right_product = temp_mall_items[right_img_idx];
+    temp_mall_items.splice(right_img_idx, 1);
     //console.log('displayed right: ', currently_displayed_right_product);
 
     //set up splice here
