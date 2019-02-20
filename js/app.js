@@ -1,9 +1,10 @@
 'use-strict';
 
 //click number countdown
-var total_clicks = 5;
+var total_clicks = 10;
 //objects from constructor instances get moved into here
 var all_mall_items = [];
+var temp_mall_items = [];
 
 //creates variables for each picture display, unassigned here because their input changes with the randomizer
 var currently_displayed_right_product;
@@ -31,13 +32,13 @@ var Mall_item = function (item_name, filepath) {
 
   //pushes instances into the global array
   all_mall_items.push(this);
+  temp_mall_items.push(this);
 };
 
 //Makes images log to page
 var render_products = function(product, target_img, target_h2){
-  console.log(product);
+  //console.log(product);
   product.num_times_shown++;
-
   target_img.src = product.filepath;
   target_h2.textContent = product.item_name;
 };
@@ -62,26 +63,40 @@ var handle_click_on_item = function(event) {
     total_clicks --;
 
     //cycles through images once the clicking function begins
-    var left_img_idx = Math.floor(Math.random() * all_mall_items.length);
-    var center_img_idx = Math.floor(Math.random() * all_mall_items.length);
-    var right_img_idx = Math.floor(Math.random() * all_mall_items.length);
-
-    /*trying to splice the array being fed into all_mall_items, to start preventing duplicates
-   I'm keeping this here but commented out. Whenever I try to splice the array, it breaks the program because
-    suddenly "product" can't be defined anywhere in the document.
-    var remove_right = all_mall_items.splice(right_img_idx, 1);
-    var remove_center = all_mall_items.splice(center_img_idx, 1);
-    var remove_left = all_mall_items.splice(left_img_idx, 1);*/
+    
+    
+    
 
     //tells the randomizer which of my three potential spaces to put images in
-    currently_displayed_right_product = all_mall_items[right_img_idx];
-    currently_displayed_center_product = all_mall_items[center_img_idx];
-    currently_displayed_left_product = all_mall_items[left_img_idx];
+    // currently_displayed_right_product = all_mall_items[right_img_idx];
+    // currently_displayed_center_product = all_mall_items[center_img_idx];
+    // currently_displayed_left_product = all_mall_items[left_img_idx];
 
     //displays images from array at the three different spaces
-    render_products(all_mall_items[left_img_idx], left_img, left_h2);
-    render_products(all_mall_items[center_img_idx], center_img, center_h2);
-    render_products(all_mall_items[right_img_idx], right_img, right_h2);
+    var left_img_idx = Math.floor(Math.random() * temp_mall_items.length);
+    render_products(temp_mall_items[left_img_idx], left_img, left_h2);
+    temp_mall_items.splice(left_img_idx, 1);
+
+    var center_img_idx = Math.floor(Math.random() * temp_mall_items.length);
+    render_products(temp_mall_items[center_img_idx], center_img, center_h2);
+    temp_mall_items.splice(center_img_idx, 1);
+
+    var right_img_idx = Math.floor(Math.random() * temp_mall_items.length);
+    render_products(temp_mall_items[right_img_idx], right_img, right_h2);
+    temp_mall_items.splice(right_img_idx, 1);
+
+
+    //
+
+    //set up splice here
+    //spread operator - feeds values into target array
+    temp_mall_items = [...all_mall_items];
+
+    temp_mall_items.splice(left_img_idx, 1);
+    temp_mall_items.splice(center_img_idx, 1);
+    temp_mall_items.splice(right_img_idx, 1);
+    console.log('heeey:', temp_mall_items);
+    console.log('alll:', all_mall_items);
 
     //gives stop conditions - runs out once the user hits 25 clicks
     if (total_clicks <= 0){
