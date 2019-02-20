@@ -65,6 +65,9 @@ var handle_click_on_item = function(event) {
     //cycles through images once the clicking function begins
 
     //tells the randomizer which of my three potential spaces to put images in
+    //code got buggy when I had this commented out, won't run when I let it back in, so I'm keeping it out for now
+    //can't read num_times_clicked on currently_displayed_center_product, because it comes up as undefined when this
+    //bit of code runs
     //currently_displayed_left_product = temp_mall_items[left_img_idx];
     //currently_displayed_center_product = temp_mall_items[center_img_idx];
     //currently_displayed_right_product = temp_mall_items[right_img_idx];
