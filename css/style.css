@@ -4,20 +4,26 @@ body{
 h1{
     font-family: 'Chau Philomene One', sans-serif;
     font-size: 300%; 
-    margin-left: 30%;
+    margin-left: 0%;
 }
 div{
     display: inline-block;
 }
 img{
-    height: 200px;
-    width: 200px;
+    height: 206px;
+    width: 206px;
     border: 3px solid #01bc94;
-    margin-left: 50%;
+    margin-left: 0px;
 }
 h2{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background: #c2d8fc;
     border: 3px solid #01bc94;
-    margin-left: 50%;
+    margin-left: 0px;
 }
+section{
+    margin: auto;
+    width: 700px;
+}
+
+
