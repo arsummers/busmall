@@ -150,8 +150,57 @@ product_container.addEventListener('click', handle_click_on_item);
 
 
 
+/*==========================================BEGIN CHART================ ============================ */
 
+//Is there a way to have it display all the mall items without manually typing them in?
+//Not linked to data generated yet, because my click counter turned super buggy when I started splicing
+//leaving in some random numbers in the data variable, since I don't know how to filter data into it, and I want
+//to have working counters before I work on that. Keeping it as a pie chart for now, so you can see which array
+//items don't get shown
 
+var ctx = document.getElementById('myChart').getContext('2d');
 
+var data = [1, 3, 10];
+
+var myChart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: all_mall_items,
+    datasets: [{
+      label: 'Best Selling Bus Mall Items',
+      data: data,
+      backgroundColor: [
+        'blue',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)'
+      ],
+      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    },
+    animation: {
+      easing: 'easeInCubic',
+      duration: 1000
+    }
+  }
+});
 
 
