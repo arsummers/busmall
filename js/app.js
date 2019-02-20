@@ -1,7 +1,7 @@
 'use-strict';
 
 //click number countdown
-var total_clicks = 10;
+var total_clicks = 25;
 //objects from constructor instances get moved into here
 var all_mall_items = [];
 var temp_mall_items = [];
@@ -63,14 +63,11 @@ var handle_click_on_item = function(event) {
     total_clicks --;
 
     //cycles through images once the clicking function begins
-    
-    
-    
 
     //tells the randomizer which of my three potential spaces to put images in
-    // currently_displayed_right_product = all_mall_items[right_img_idx];
-    // currently_displayed_center_product = all_mall_items[center_img_idx];
-    // currently_displayed_left_product = all_mall_items[left_img_idx];
+    //currently_displayed_left_product = temp_mall_items[left_img_idx];
+    //currently_displayed_center_product = temp_mall_items[center_img_idx];
+    //currently_displayed_right_product = temp_mall_items[right_img_idx];
 
     //displays images from array at the three different spaces
     var left_img_idx = Math.floor(Math.random() * temp_mall_items.length);
@@ -85,9 +82,6 @@ var handle_click_on_item = function(event) {
     render_products(temp_mall_items[right_img_idx], right_img, right_h2);
     temp_mall_items.splice(right_img_idx, 1);
 
-
-    //
-
     //set up splice here
     //spread operator - feeds values into target array
     temp_mall_items = [...all_mall_items];
@@ -95,8 +89,8 @@ var handle_click_on_item = function(event) {
     temp_mall_items.splice(left_img_idx, 1);
     temp_mall_items.splice(center_img_idx, 1);
     temp_mall_items.splice(right_img_idx, 1);
-    console.log('heeey:', temp_mall_items);
-    console.log('alll:', all_mall_items);
+    //console.log('heeey:', temp_mall_items);
+    //console.log('alll:', all_mall_items);
 
     //gives stop conditions - runs out once the user hits 25 clicks
     if (total_clicks <= 0){
