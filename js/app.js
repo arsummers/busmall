@@ -1,15 +1,15 @@
 'use-strict';
 
 //click number countdown
-var total_clicks = 25;
+var total_clicks = 2;
 //objects from constructor instances get moved into here
 var all_mall_items = [];
 var temp_mall_items = [];
 
 //creates variables for each picture display, unassigned here because their input changes with the randomizer
-var currently_displayed_right_product;
-var currently_displayed_center_product;
 var currently_displayed_left_product;
+var currently_displayed_center_product;
+var currently_displayed_right_product;
 
 //creates elements for each image and its caption to live in
 var product_container = document.getElementById('product_container');
@@ -43,6 +43,10 @@ var render_products = function(product, target_img, target_h2){
   target_h2.textContent = product.item_name;
 };
 
+//var splice_left = function (){temp_mall_items.splice(left_img_idx, 1);};
+//var splice_center = function (){temp_mall_items.splice(center_img_idx, 1);};
+//var splice_right = function () {temp_mall_items.splice(right_img_idx, 1);};
+
 //Start of main function that runs the entire program
 var handle_click_on_item = function(event) {
   console.log('click');
@@ -53,8 +57,8 @@ var handle_click_on_item = function(event) {
   //been clicked on.
     if(event.target.id === 'left_img'){
       currently_displayed_left_product.num_times_clicked ++;
-    } else if(event.target.id === 'center_img')
-    {currently_displayed_center_product.num_times_clicked ++;
+    } else if(event.target.id === 'center_img'){
+      currently_displayed_center_product.num_times_clicked ++;
     } else if (event.target.id === 'right_img'){
       currently_displayed_right_product.num_times_clicked ++;
     }
@@ -68,22 +72,29 @@ var handle_click_on_item = function(event) {
     //code got buggy when I had this commented out, won't run when I let it back in, so I'm keeping it out for now
     //can't read num_times_clicked on currently_displayed_center_product, because it comes up as undefined when this
     //bit of code runs
-    //currently_displayed_left_product = temp_mall_items[left_img_idx];
-    //currently_displayed_center_product = temp_mall_items[center_img_idx];
-    //currently_displayed_right_product = temp_mall_items[right_img_idx];
 
-    //displays images from array at the three different spaces
+    //starts splice to control randomization
+    debugger;
     var left_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-    render_products(temp_mall_items[left_img_idx], left_img, left_h2);
+    console.log('temp left', temp_mall_items);
+    
     temp_mall_items.splice(left_img_idx, 1);
+    render_products(temp_mall_items[left_img_idx], left_img, left_h2);
+    currently_displayed_left_product = temp_mall_items[left_img_idx];
+    console.log('displayed left: ', currently_displayed_left_product);
 
     var center_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-    render_products(temp_mall_items[center_img_idx], center_img, center_h2);
     temp_mall_items.splice(center_img_idx, 1);
+    render_products(temp_mall_items[center_img_idx], center_img, center_h2);
+    currently_displayed_center_product = temp_mall_items[center_img_idx];
+    console.log('center left: ', currently_displayed_center_product);
+
 
     var right_img_idx = Math.floor(Math.random() * temp_mall_items.length);
     render_products(temp_mall_items[right_img_idx], right_img, right_h2);
     temp_mall_items.splice(right_img_idx, 1);
+    currently_displayed_right_product = temp_mall_items[right_img_idx];
+    console.log('displayed right: ', currently_displayed_right_product);
 
     //set up splice here
     //spread operator - feeds values into target array
@@ -137,9 +148,9 @@ var left_img_idx = Math.floor(Math.random() * all_mall_items.length);
 var center_img_idx = Math.floor(Math.random() * all_mall_items.length);
 var right_img_idx = Math.floor(Math.random() * all_mall_items.length);
 
-currently_displayed_right_product = all_mall_items[right_img_idx];
-currently_displayed_center_product = all_mall_items[center_img_idx];
 currently_displayed_left_product = all_mall_items[left_img_idx];
+currently_displayed_center_product = all_mall_items[center_img_idx];
+currently_displayed_right_product = all_mall_items[right_img_idx];
 
 render_products(all_mall_items[left_img_idx], left_img, left_h2);
 render_products(all_mall_items[center_img_idx], center_img, center_h2);
@@ -147,11 +158,4 @@ render_products(all_mall_items[right_img_idx], right_img, right_h2);
 
 //adds the event listener to my product container, allowing the handle_click_on_item function to begin working
 product_container.addEventListener('click', handle_click_on_item);
-
-
-
-
-
-
-
 
