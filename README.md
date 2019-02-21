@@ -2,6 +2,7 @@
 Sources:
 Splicing function: https://www.developphp.com/video/JavaScript/Get-or-Remove-Random-Array-Elements-Tutorial
 Heading font: https://fonts.google.com/specimen/Chau+Philomene+One?selection.family=Chau+Philomene+One
+Chart source: https://cdnjs.com/libraries/Chart.js
 TA Ed Abrahamsen helped extensively with debugging.
 --------------------------------------------------------------------
 What I need:
