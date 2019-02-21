@@ -2,7 +2,7 @@
 
 /*============================================GLOBAL VARIABLES====================================*/
 //click number countdown
-var total_clicks = 11;
+var total_clicks = 26;
 //objects from constructor instances get moved into here. all_mall_items doesn't change.
 //temp_mall_items has more fluid contents, and changes according to splicing function. Both start off the same.
 var all_mall_items = [];
@@ -260,7 +260,7 @@ var initial_images = function () {
 
 //shows initial placeholder images once, then shifts it out of array. This is to prevent weird id and index mixups
 //that happened the first images generated randomly
-if(total_clicks === 11){
+if(total_clicks === 26){
   initial_images();
   all_mall_items.shift();
   temp_mall_items.shift();
