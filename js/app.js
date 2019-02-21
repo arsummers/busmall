@@ -1,7 +1,7 @@
 'use-strict';
 
 //click number countdown
-var total_clicks = 10;
+var total_clicks = 11;
 //objects from constructor instances get moved into here
 var all_mall_items = [];
 var temp_mall_items = [];
@@ -51,10 +51,14 @@ var render_products = function(product, target_img, target_h2){
 //var splice_center = function (){temp_mall_items.splice(center_img_idx, 1);};
 //var splice_right = function () {temp_mall_items.splice(right_img_idx, 1);};
 
+//I need this to fill only on every other click, but how?
+    //if (total_clicks is even){refill temp}
+    // if(total_clicks % 2 === 0){
+    //   temp_mall_items = [...all_mall_items];
+    // }
+
 //Start of main function that runs the entire program
 var handle_click_on_item = function(event) {
-  // console.log('temp mall items after handler', temp_mall_items);
-  // console.log('all mall items after handler', all_mall_items);
   // console.log('click');
 
   //registers that the click happened on an image
@@ -72,6 +76,17 @@ var handle_click_on_item = function(event) {
       console.log('you have clicked right', currently_displayed_right_product.item_name);
     }
 
+    //checks to see if the total clicks is an even number. If it is, it refills the temp items array
+    //if not, it moves on in the function
+    //debugger;
+    if(total_clicks % 2 === 0){
+      temp_mall_items = [...all_mall_items];
+      console.log('is even', temp_mall_items);
+    }
+    if(total_clicks % 2 !== 0){
+      console.log('is odd,', temp_mall_items);
+    }
+
     //decrements my click counter
     total_clicks --;
 
@@ -84,38 +99,32 @@ var handle_click_on_item = function(event) {
 
     //starts splice to control randomization
     //debugger;
+
     var left_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-    //console.log('temp mall items after random', temp_mall_items);
-    //console.log('all mall items after random', all_mall_items);
-    
     render_products(temp_mall_items[left_img_idx], left_img, left_h2);
     currently_displayed_left_product = temp_mall_items[left_img_idx];
-    //console.log('displayed left: ', currently_displayed_left_product);
+    console.log('displayed left: ', currently_displayed_left_product);
     temp_mall_items.splice(left_img_idx, 1);
 
     var center_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-
     render_products(temp_mall_items[center_img_idx], center_img, center_h2);
     currently_displayed_center_product = temp_mall_items[center_img_idx];
     temp_mall_items.splice(center_img_idx, 1);
-    //console.log('center left: ', currently_displayed_center_product);
+    console.log('center left: ', currently_displayed_center_product);
 
 
     var right_img_idx = Math.floor(Math.random() * temp_mall_items.length);
     render_products(temp_mall_items[right_img_idx], right_img, right_h2);
     currently_displayed_right_product = temp_mall_items[right_img_idx];
     temp_mall_items.splice(right_img_idx, 1);
-    //console.log('displayed right: ', currently_displayed_right_product);
+    console.log('displayed right: ', currently_displayed_right_product);
 
     //set up splice here
     //spread operator - feeds values into target array
-    temp_mall_items = [...all_mall_items];
-
-    temp_mall_items.splice(left_img_idx, 1);
-    temp_mall_items.splice(center_img_idx, 1);
-    temp_mall_items.splice(right_img_idx, 1);
-    //console.log('heeey:', temp_mall_items);
-    //console.log('alll:', all_mall_items);
+    //debugger;
+    // temp_mall_items.splice(left_img_idx, 1);
+    // temp_mall_items.splice(center_img_idx, 1);
+    // temp_mall_items.splice(right_img_idx, 1);
 
     //gives stop conditions - runs out once the user hits 25 clicks
     if (total_clicks <= 0){
@@ -135,6 +144,7 @@ var handle_click_on_item = function(event) {
 
 //instantiating area. Constructor function feeds these into my all_mall_items array
 
+new Mall_item('Click Me to Begin', './img/click-to-begin.jpg');
 new Mall_item('R2D2 Bag', './img/bag.jpg');
 new Mall_item('Banana Cutter', './img/banana.jpg');
 new Mall_item('Bathroom iPad', './img/bathroom.jpg');
@@ -159,17 +169,26 @@ new Mall_item('Wine Glass', './img/wine-glass.jpg');
 //Credit for putting a second Math.random down here goes to Ed. This causes the first images when you load the page
 //to show up randomly. This solved a major bug we had, which had image indices hiding directly behind the pictures
 //I previously had coded directly into the HTML, which impacted vote numbers.
-var left_img_idx = Math.floor(Math.random() * all_mall_items.length);
-var center_img_idx = Math.floor(Math.random() * all_mall_items.length);
-var right_img_idx = Math.floor(Math.random() * all_mall_items.length);
+var initial_images = function () {
+  // var left_img_idx = Math.floor(Math.random() * all_mall_items.length);
+  // var center_img_idx = Math.floor(Math.random() * all_mall_items.length);
+  // var right_img_idx = Math.floor(Math.random() * all_mall_items.length);
 
-currently_displayed_left_product = all_mall_items[left_img_idx];
-currently_displayed_center_product = all_mall_items[center_img_idx];
-currently_displayed_right_product = all_mall_items[right_img_idx];
+  currently_displayed_left_product = all_mall_items[0];
+  currently_displayed_center_product = all_mall_items[0];
+  currently_displayed_right_product = all_mall_items[0];
 
-render_products(all_mall_items[left_img_idx], left_img, left_h2);
-render_products(all_mall_items[center_img_idx], center_img, center_h2);
-render_products(all_mall_items[right_img_idx], right_img, right_h2);
+  render_products(all_mall_items[0], left_img, left_h2);
+  render_products(all_mall_items[0], center_img, center_h2);
+  render_products(all_mall_items[0], right_img, right_h2);
+};
+
+//shows initial placeholder images once, then shifts it out of array
+if(total_clicks === 11){
+  initial_images();
+  all_mall_items.shift();
+  temp_mall_items.shift();
+}
 
 //adds the event listener to my product container, allowing the handle_click_on_item function to begin working
 product_container.addEventListener('click', handle_click_on_item);
