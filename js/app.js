@@ -15,8 +15,6 @@ var currently_displayed_right_product;
 
 //calls the product_container tags and space from index.html
 var product_container = document.getElementById('product_container');
-//var result_container = document.getElementById('bus_results');
-
 //creates elements for each image and its caption to live in
 var left_img = document.getElementById('left_img');
 var center_img = document.getElementById('center_img');
@@ -26,7 +24,7 @@ var left_h2 = document.getElementById('left_h2');
 var center_h2 = document.getElementById('center_h2');
 var right_h2 = document.getElementById('right_h2');
 
-/* ============================================HELPER FUNCTIONS==============================================*/
+/* ========================================Item Constructor==============================================*/
 
 //start of constructor function
 var Mall_item = function (item_name, filepath) {
@@ -40,12 +38,142 @@ var Mall_item = function (item_name, filepath) {
   temp_mall_items.push(this);
 };
 
+/*============================================HELPER FUNCTIONS=============================================*/
+
 //Makes images log to page
 var render_products = function(product, target_img, target_h2){
-  //console.log(product);
   product.num_times_shown++;
   target_img.src = product.filepath;
   target_h2.textContent = product.item_name;
+};
+
+//builds chart function for clicked-on chart
+var render_products_clicked_chart = function () {
+  var canvas_el = document.getElementById('bus_results');
+  var ctx = canvas_el.getContext('2d');
+
+  var product_click_data = [];
+  for (var j = 0; j < all_mall_items.length; j++){
+    product_click_data.push(all_mall_items[j].num_times_clicked);
+  }
+  var product_click_labels = [];
+  for(var k = 0; k < all_mall_items.length; k++){
+    product_click_labels.push(all_mall_items[k].item_name);
+  }
+  render_chart(product_click_data, product_click_labels, 'Clicks Per Item', ctx);
+};
+
+var render_products_shown_chart = function (){
+  var canvas_el = document.getElementById('items_shown_results');
+  var ctx = canvas_el.getContext('2d');
+
+  var product_shown_data = [];
+  for (var j = 0; j < all_mall_items.length; j++){
+    product_shown_data.push(all_mall_items[j].num_times_shown);
+  }
+
+  var product_click_labels = [];
+  for(var k = 0; k < all_mall_items.length; k++){
+    product_click_labels.push(all_mall_items[k].item_name);
+  }
+  render_chart(product_shown_data, product_click_labels, 'Number of Times Shown', ctx);
+};
+
+//begin chart
+var render_chart = function(data, labels, title, ctx){
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: title,
+        data: data,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(153, 102, 255, 0.7)',
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(153, 102, 255, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(153, 102, 255, 0.7)',
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(153, 102, 255, 0.7)',
+          'rgba(255, 159, 64, 0.7)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+};
+  //end of chart
+
+//displays new items
+var pick_new_item = function () {
+  //tells the randomizer which of my three potential spaces to put images in
+  //renders the image picked from randomizer to page
+  //starts splice to control randomization and keep duplicates from showing up on the page
+  //repeats for each image space
+
+  var left_img_idx = Math.floor(Math.random() * temp_mall_items.length);
+  render_products(temp_mall_items[left_img_idx], left_img, left_h2);
+  currently_displayed_left_product = temp_mall_items[left_img_idx];
+  temp_mall_items.splice(left_img_idx, 1);
+  console.log('displayed left: ', currently_displayed_left_product);
+
+  var center_img_idx = Math.floor(Math.random() * temp_mall_items.length);
+  render_products(temp_mall_items[center_img_idx], center_img, center_h2);
+  currently_displayed_center_product = temp_mall_items[center_img_idx];
+  temp_mall_items.splice(center_img_idx, 1);
+  console.log('center left: ', currently_displayed_center_product);
+
+
+  var right_img_idx = Math.floor(Math.random() * temp_mall_items.length);
+  render_products(temp_mall_items[right_img_idx], right_img, right_h2);
+  currently_displayed_right_product = temp_mall_items[right_img_idx];
+  temp_mall_items.splice(right_img_idx, 1);
+  console.log('displayed right: ', currently_displayed_right_product);
+
 };
 
 //Start of main function that runs the entire program
@@ -81,114 +209,13 @@ var handle_click_on_item = function(event) {
     //decrements my click counter
     total_clicks --;
 
-    //tells the randomizer which of my three potential spaces to put images in
-    //renders the image picked from randomizer to page
-    //starts splice to control randomization and keep duplicates from showing up on the page
-    //repeats for each image space
-
-    var left_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-    render_products(temp_mall_items[left_img_idx], left_img, left_h2);
-    currently_displayed_left_product = temp_mall_items[left_img_idx];
-    temp_mall_items.splice(left_img_idx, 1);
-    console.log('displayed left: ', currently_displayed_left_product);
-
-    var center_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-    render_products(temp_mall_items[center_img_idx], center_img, center_h2);
-    currently_displayed_center_product = temp_mall_items[center_img_idx];
-    temp_mall_items.splice(center_img_idx, 1);
-    console.log('center left: ', currently_displayed_center_product);
-
-
-    var right_img_idx = Math.floor(Math.random() * temp_mall_items.length);
-    render_products(temp_mall_items[right_img_idx], right_img, right_h2);
-    currently_displayed_right_product = temp_mall_items[right_img_idx];
-    temp_mall_items.splice(right_img_idx, 1);
-    console.log('displayed right: ', currently_displayed_right_product);
-
-
+    pick_new_item ();
 
     //gives stop conditions - runs out once the user hits 25 clicks
     if (total_clicks <= 0){
       product_container.removeEventListener('click', handle_click_on_item);
-      //inserts chart
-      var canvas_el = document.getElementById('bus_results');
-      var ctx = canvas_el.getContext('2d');
-
-      var product_click_data = [];
-      for (var j = 0; j < all_mall_items.length; j++){
-        product_click_data.push(all_mall_items[j].num_times_clicked);
-      }
-
-      var product_click_labels = [];
-      for(var k = 0; k < all_mall_items.length; k++){
-        product_click_labels.push(all_mall_items[k].item_name);
-      }
-
-      var myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-          labels: product_click_labels,
-          datasets: [{
-            label: '# of Votes per Bus Mall Item',
-            data: product_click_data,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.5)',
-              'rgba(54, 162, 235, 0.5)',
-              'rgba(255, 206, 86, 0.5)',
-              'rgba(75, 192, 192, 0.5)',
-              'rgba(153, 102, 255, 0.5)',
-              'rgba(255, 99, 132, 0.5)',
-              'rgba(54, 162, 235, 0.5)',
-              'rgba(255, 206, 86, 0.5)',
-              'rgba(75, 192, 192, 0.5)',
-              'rgba(153, 102, 255, 0.5)',
-              'rgba(54, 162, 235, 0.5)',
-              'rgba(255, 206, 86, 0.5)',
-              'rgba(75, 192, 192, 0.5)',
-              'rgba(153, 102, 255, 0.5)',
-              'rgba(255, 99, 132, 0.5)',
-              'rgba(54, 162, 235, 0.5)',
-              'rgba(255, 206, 86, 0.5)',
-              'rgba(75, 192, 192, 0.5)',
-              'rgba(153, 102, 255, 0.5)',
-              'rgba(255, 159, 64, 0.5)'
-            ],
-            borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          }
-        }
-      });
-      //end of chart
+      render_products_clicked_chart();
+      render_products_shown_chart();
     }
   }
 };
