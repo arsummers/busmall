@@ -3,7 +3,8 @@ Sources:
 Splicing function: https://www.developphp.com/video/JavaScript/Get-or-Remove-Random-Array-Elements-Tutorial
 Heading font: https://fonts.google.com/specimen/Chau+Philomene+One?selection.family=Chau+Philomene+One
 Chart source: https://cdnjs.com/libraries/Chart.js
-TA Ed Abrahamsen helped extensively with debugging.
+Chart and local storage functions built from Nicholas Carignan's Codefellows 201 demos.
+TAS Ed Abrahamsen and Jackie helped extensively with debugging.
 --------------------------------------------------------------------
 What I need:
 Give them a fun digital catalogue to navigate
