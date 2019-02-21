@@ -82,7 +82,7 @@ var render_products_shown_chart = function (){
 //begin chart
 var render_chart = function(data, labels, title, ctx){
   new Chart(ctx, {
-    type: 'bar',
+    type: 'pie',
     data: {
       labels: labels,
       datasets: [{
@@ -159,63 +159,58 @@ var pick_new_item = function () {
   render_products(temp_mall_items[left_img_idx], left_img, left_h2);
   currently_displayed_left_product = temp_mall_items[left_img_idx];
   temp_mall_items.splice(left_img_idx, 1);
-  console.log('displayed left: ', currently_displayed_left_product);
 
   var center_img_idx = Math.floor(Math.random() * temp_mall_items.length);
   render_products(temp_mall_items[center_img_idx], center_img, center_h2);
   currently_displayed_center_product = temp_mall_items[center_img_idx];
   temp_mall_items.splice(center_img_idx, 1);
-  console.log('center left: ', currently_displayed_center_product);
-
 
   var right_img_idx = Math.floor(Math.random() * temp_mall_items.length);
   render_products(temp_mall_items[right_img_idx], right_img, right_h2);
   currently_displayed_right_product = temp_mall_items[right_img_idx];
   temp_mall_items.splice(right_img_idx, 1);
-  console.log('displayed right: ', currently_displayed_right_product);
-
 };
 
-//Start of main function that runs the entire program
+var increment_product_clicks = function(product_img_id){
+  if(product_img_id === 'left_img'){
+    currently_displayed_left_product.num_times_clicked ++;
+  } else if(product_img_id === 'center_img'){
+    currently_displayed_center_product.num_times_clicked ++;
+  } else if (product_img_id === 'right_img'){
+    currently_displayed_right_product.num_times_clicked ++;
+  }
+};
+
+//Start of main function that runs the entire program. Many other functions called inside here.
 var handle_click_on_item = function(event) {
-  // console.log('click');
 
   //registers that the click happened on an image
   if(event.target.id === 'center_img' || event.target.id === 'left_img' || event.target.id === 'right_img'){
-  //matches up the image at the index of the array it's in, so it can accurately count how many times it has
-  //been clicked on.
-    if(event.target.id === 'left_img'){
-      currently_displayed_left_product.num_times_clicked ++;
-      console.log('you have clicked left', currently_displayed_left_product.item_name);
-    } else if(event.target.id === 'center_img'){
-      currently_displayed_center_product.num_times_clicked ++;
-      console.log('you have clicked center', currently_displayed_center_product.item_name);
-    } else if (event.target.id === 'right_img'){
-      currently_displayed_right_product.num_times_clicked ++;
-      console.log('you have clicked right', currently_displayed_right_product.item_name);
-    }
+
+    //matches up the image at the index of the array it's in, so it can accurately count how many times it has
+    //been clicked on.
+    increment_product_clicks(event.target.id);
 
     //checks to see if the total clicks is an even number. If it is, it refills the temp items array
     //if not, it moves on in the function. Meant to keep duplicate images from appearing between clicks, but is
     //not currently working at 100% accuracy. Still seems to be helping some.
     if(total_clicks % 2 === 0){
       temp_mall_items = [...all_mall_items];
-      console.log('is even', temp_mall_items);
     }
-    if(total_clicks % 2 !== 0){
-      console.log('is odd,', temp_mall_items);
-    }
-
-    //decrements my click counter
-    total_clicks --;
-
-    pick_new_item ();
 
     //gives stop conditions - runs out once the user hits 25 clicks
     if (total_clicks <= 0){
       product_container.removeEventListener('click', handle_click_on_item);
       render_products_clicked_chart();
       render_products_shown_chart();
+
+      var stringy_products = JSON.stringify(all_mall_items); //saving product click data
+      localStorage.setItem('all_mall_items', stringy_products);
+      console.log('clicks save to local storage');
+    } else {
+      //decrements my click counter
+      total_clicks--;
+      pick_new_item();
     }
   }
 };
@@ -223,27 +218,35 @@ var handle_click_on_item = function(event) {
 
 //instantiating area. Constructor function feeds these into my all_mall_items array
 
-new Mall_item('Click Me to Begin', './img/click-to-begin.jpg');
-new Mall_item('R2D2 Bag', './img/bag.jpg');
-new Mall_item('Banana Cutter', './img/banana.jpg');
-new Mall_item('Bathroom iPad', './img/bathroom.jpg');
-new Mall_item('Boots', './img/boots.jpg');
-new Mall_item('Breakfast', './img/breakfast.jpg');
-new Mall_item('Bubblegum', './img/bubblegum.jpg');
-new Mall_item('Chair', './img/chair.jpg');
-new Mall_item('Cthulhu', './img/cthulhu.jpg');
-new Mall_item('Duck Bill', './img/dog-duck.jpg');
-new Mall_item('Dragon Meat', './img/dragon.jpg');
-new Mall_item('Pen', './img/pen.jpg');
-new Mall_item('Pet Sweeper', './img/pet-sweep.jpg');
-new Mall_item('Scissors', './img/scissors.jpg');
-new Mall_item('Shark', './img/shark.jpg');
-new Mall_item('Baby Sweeper', './img/sweep.png');
-new Mall_item('Tauntaun', './img/tauntaun.jpg');
-new Mall_item('Unicorn', './img/unicorn.jpg');
-new Mall_item('USB Tentacle', './img/usb.gif');
-new Mall_item('Watering Can', './img/water-can.jpg');
-new Mall_item('Wine Glass', './img/wine-glass.jpg');
+//if we have data saved from previous session, load it.
+if(localStorage.getItem('all_mall_items')){
+  var stringy_products = localStorage.getItem('all_mall_items');//takes stringified products out of local storage
+  all_mall_items = JSON.parse(stringy_products);//converts stringified array into readable array
+  console.log(`retrieved ${all_mall_items.length} products from local storage`);
+} else {
+  new Mall_item('Click Me to Begin', './img/click-to-begin.jpg');
+  new Mall_item('R2D2 Bag', './img/bag.jpg');
+  new Mall_item('Banana Cutter', './img/banana.jpg');
+  new Mall_item('Bathroom iPad', './img/bathroom.jpg');
+  new Mall_item('Boots', './img/boots.jpg');
+  new Mall_item('Breakfast', './img/breakfast.jpg');
+  new Mall_item('Bubblegum', './img/bubblegum.jpg');
+  new Mall_item('Chair', './img/chair.jpg');
+  new Mall_item('Cthulhu', './img/cthulhu.jpg');
+  new Mall_item('Duck Bill', './img/dog-duck.jpg');
+  new Mall_item('Dragon Meat', './img/dragon.jpg');
+  new Mall_item('Pen', './img/pen.jpg');
+  new Mall_item('Pet Sweeper', './img/pet-sweep.jpg');
+  new Mall_item('Scissors', './img/scissors.jpg');
+  new Mall_item('Shark', './img/shark.jpg');
+  new Mall_item('Baby Sweeper', './img/sweep.png');
+  new Mall_item('Tauntaun', './img/tauntaun.jpg');
+  new Mall_item('Unicorn', './img/unicorn.jpg');
+  new Mall_item('USB Tentacle', './img/usb.gif');
+  new Mall_item('Watering Can', './img/water-can.jpg');
+  new Mall_item('Wine Glass', './img/wine-glass.jpg');
+  console.log('created new products');
+}
 
 //Renders click to begin image to page, then takes it out of object array so it won't affect voting. Allows the
 //first three votable objects to be completely random
@@ -259,18 +262,18 @@ var initial_images = function () {
 };
 
 //shows initial placeholder images once, then shifts it out of array. This is to prevent weird id and index mixups
-//that happened the first images generated randomly
+//that happened the first images generated randomly. This does not count towards any votes or views, as it is shifted
+//from the array before any other click events fire off.
+//This is commented out, because as soon as I added local storage, it started shifting the array each time, so that
+//all_mall_items was shorted by 1 each time I reloaded the page.
+
 if(total_clicks === 11){
   initial_images();
-  all_mall_items.shift();
-  temp_mall_items.shift();
+  // all_mall_items.shift();
+  // temp_mall_items.shift();
 }
 
 //adds the event listener to my product container, allowing the handle_click_on_item function to begin working
 product_container.addEventListener('click', handle_click_on_item);
 
-//look at goat lab for chart hookup
-
-
-//var ctx = document.getElementById("myChart").getContext('2d');
 
