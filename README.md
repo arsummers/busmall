@@ -1,9 +1,10 @@
 # busmall
 Sources:
-Splicing function: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+Splicing function: https://www.developphp.com/video/JavaScript/Get-or-Remove-Random-Array-Elements-Tutorial
 Heading font: https://fonts.google.com/specimen/Chau+Philomene+One?selection.family=Chau+Philomene+One
+Chart source: https://cdnjs.com/libraries/Chart.js
+TA Ed Abrahamsen helped extensively with debugging.
 --------------------------------------------------------------------
-This is where basic scaffolding is going to take place
 What I need:
 Give them a fun digital catalogue to navigate
 Bus Mall wants to find out which items are most likely to sell, so they can feature only those
@@ -31,11 +32,15 @@ App:
         ---done, consistent.
     2. when clicked:
         a. register clicks
+        ---done
         b. track clicks done on each image
+        --done
         c. display new images
+        ---done
             i.must not duplicate images currently on page
-                *. can I divvy them up equally between left, center, right?
+            ---in progress
             ii.must not duplicate images shown on most recent click
+            ---in progress
                 *.make a constructor function that creates an object for each image
                 -----done. They all cycle and render
                     1.name of image
@@ -47,7 +52,9 @@ App:
         a. counters? ifs?
     4. After 25 clicks:
         a. turn off event listeners on images
+        --done
         b. display list of products with vote number
+        ---done
             i."3 votes for dragon meat"
     
 REMEMBER: treat this as a bunch of little problems
@@ -60,7 +67,9 @@ Added a set of three filler images at the top, so that the ones showing as defau
 Step 3.
 Handle image display
     1.Can't show duplicate image on click 
-        --> Tried to use Fisher-Yates shuffle, and a splice method. Both broke the code.
     2.All images must be different than the one previously shown
+        a. Splicing randomizes it perfect, BUT messes my count up. - registers clicks twice?
 
+
+ 
 
